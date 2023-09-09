@@ -2,6 +2,7 @@ package utils
 
 import (
 	"math/rand"
+	"os"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
@@ -35,4 +36,12 @@ func HandleError(err error, c *fiber.Ctx) error {
 		"status":  "error",
 		"message": err,
 	})
+}
+
+func GetEnv(key string, defaultValue string) string {
+	if value, ok := os.LookupEnv(key); ok {
+		return value
+	}
+
+	return defaultValue
 }

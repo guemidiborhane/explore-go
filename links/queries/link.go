@@ -6,7 +6,7 @@ import (
 	application "core/config"
 )
 
-func GetAllLinks() ([]models.Link, error) {
+func All() ([]models.Link, error) {
 	var links []models.Link
 
 	tx := application.Database.Find(&links)
@@ -18,7 +18,7 @@ func GetAllLinks() ([]models.Link, error) {
 	return links, nil
 }
 
-func GetLink(id uint64) (models.Link, error) {
+func Get(id uint64) (models.Link, error) {
 	var link models.Link
 	tx := application.Database.First(&link, id)
 
@@ -29,19 +29,19 @@ func GetLink(id uint64) (models.Link, error) {
 	return link, nil
 }
 
-func CreateLink(link *models.Link) error {
+func Create(link *models.Link) error {
 	tx := application.Database.Create(&link)
 
 	return tx.Error
 }
 
-func UpdateLink(link models.Link) error {
+func Update(link models.Link) error {
 	tx := application.Database.Save(&link)
 
 	return tx.Error
 }
 
-func DestroyLink(link models.Link) error {
+func Destroy(link models.Link) error {
 	tx := application.Database.Delete(&link)
 
 	return tx.Error

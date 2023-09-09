@@ -10,18 +10,18 @@ import (
 )
 
 func Index(c *fiber.Ctx) error {
-	links, err := queries.GetAllLinks()
+	links, err := queries.All()
 
 	if err != nil {
 		return utils.HandleError(err, c)
 	}
 
-	return c.Status(fiber.StatusFound).JSON(links)
+	return c.Status(fiber.StatusOK).JSON(links)
 }
 
 func Show(c *fiber.Ctx) error {
 	id := utils.ParseUint(c.Params("id"), 64)
-	link, err := queries.GetLink(id)
+	link, err := queries.Get(id)
 
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
@@ -29,7 +29,7 @@ func Show(c *fiber.Ctx) error {
 		})
 	}
 
-	return c.Status(fiber.StatusFound).JSON(link)
+	return c.Status(fiber.StatusOK).JSON(link)
 }
 
 func Create(c *fiber.Ctx) error {
@@ -43,7 +43,7 @@ func Create(c *fiber.Ctx) error {
 		})
 	}
 
-	if err := queries.CreateLink(&link); err != nil {
+	if err := queries.Create(&link); err != nil {
 		return utils.HandleError(err, c)
 	}
 
@@ -54,7 +54,7 @@ func Update(c *fiber.Ctx) error {
 	c.Accepts("application/json")
 
 	var link models.Link
-	link, err := queries.GetLink(utils.ParseUint(c.Params("id"), 64))
+	link, err := queries.Get(utils.ParseUint(c.Params("id"), 64))
 
 	if err != nil {
 		return utils.HandleError(err, c)
@@ -64,7 +64,7 @@ func Update(c *fiber.Ctx) error {
 		return utils.HandleError(err, c)
 	}
 
-	if err := queries.UpdateLink(link); err != nil {
+	if err := queries.Update(link); err != nil {
 		return utils.HandleError(err, c)
 	}
 
@@ -73,13 +73,13 @@ func Update(c *fiber.Ctx) error {
 
 func Destroy(c *fiber.Ctx) error {
 	id := utils.ParseUint(c.Params("id"), 64)
-	link, err := queries.GetLink(id)
+	link, err := queries.Get(id)
 
 	if err != nil {
 		return utils.HandleError(err, c)
 	}
 
-	if err := queries.DestroyLink(link); err != nil {
+	if err := queries.Destroy(link); err != nil {
 		return utils.HandleError(err, c)
 	}
 

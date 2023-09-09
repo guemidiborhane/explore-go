@@ -2,13 +2,23 @@ package initializers
 
 import (
 	application "core/config"
+	"core/utils"
+	"fmt"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 func InitDB() {
-	dsn := "host=127.0.0.1 user=borhane password=secret dbname=gorm port=5432 sslmode=disable TimeZone=Africa/Algiers"
+	dsn := fmt.Sprintf(
+		"host=%s user=%s password=%s dbname=%s port=%d sslmode=disable TimeZone=%s",
+		utils.GetEnv("DB_HOST", "localhost"),
+		utils.GetEnv("DB_USERNAME", "postgres"),
+		utils.GetEnv("DB_PASSWORD", "postgres"),
+		utils.GetEnv("DB_NAME", "gorm"),
+		utils.ParseUint(utils.GetEnv("DB_PORT", "5432"), 64),
+		utils.GetEnv("TZ", "Africa/Algiers"),
+	)
 	var err error
 	application.Database, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
