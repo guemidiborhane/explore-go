@@ -2,7 +2,6 @@ package initializers
 
 import (
 	application "github.com/guemidiborhane/explore-go/config"
-	link "github.com/guemidiborhane/explore-go/links/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -15,6 +14,4 @@ func InitDB() {
 	if err != nil {
 		panic(err)
 	}
-
-	link.Setup()
 }

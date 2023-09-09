@@ -2,23 +2,12 @@ package handlers
 
 import (
 	"github.com/gofiber/fiber/v2"
-	application "github.com/guemidiborhane/explore-go/config"
 	"github.com/guemidiborhane/explore-go/links/models"
 	"github.com/guemidiborhane/explore-go/links/queries"
 	"github.com/guemidiborhane/explore-go/utils"
 )
 
-func SetupRoutes() {
-	group := application.Router.Group("/links")
-
-	group.Get("/", index)
-	group.Post("/", create)
-	group.Get("/:id", show)
-	group.Patch("/:id", update)
-	group.Delete("/:id", destroy)
-}
-
-func index(c *fiber.Ctx) error {
+func Index(c *fiber.Ctx) error {
 	links, err := queries.GetAllLinks()
 
 	if err != nil {
@@ -28,7 +17,7 @@ func index(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusFound).JSON(links)
 }
 
-func show(c *fiber.Ctx) error {
+func Show(c *fiber.Ctx) error {
 	id := utils.ParseUint(c.Params("id"), 64)
 	link, err := queries.GetLink(id)
 
@@ -41,7 +30,7 @@ func show(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusFound).JSON(link)
 }
 
-func create(c *fiber.Ctx) error {
+func Create(c *fiber.Ctx) error {
 	c.Accepts("application/json")
 	var link models.Link
 	link.Short = utils.RandomShort(8)
@@ -59,7 +48,7 @@ func create(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusCreated).JSON(link)
 }
 
-func update(c *fiber.Ctx) error {
+func Update(c *fiber.Ctx) error {
 	c.Accepts("application/json")
 
 	var link models.Link
@@ -80,7 +69,7 @@ func update(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(link)
 }
 
-func destroy(c *fiber.Ctx) error {
+func Destroy(c *fiber.Ctx) error {
 	id := utils.ParseUint(c.Params("id"), 64)
 	link, err := queries.GetLink(id)
 
