@@ -1,7 +1,8 @@
 package initializers
 
 import (
-	application "github.com/guemidiborhane/explore-go/config"
+	application "core/config"
+
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )

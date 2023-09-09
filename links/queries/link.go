@@ -1,8 +1,9 @@
 package queries
 
 import (
-	application "github.com/guemidiborhane/explore-go/config"
-	"github.com/guemidiborhane/explore-go/links/models"
+	"links/models"
+
+	application "core/config"
 )
 
 func GetAllLinks() ([]models.Link, error) {

@@ -1,14 +1,14 @@
 package main
 
 import (
-	application "github.com/guemidiborhane/explore-go/config"
-	"github.com/guemidiborhane/explore-go/config/initializers"
-	"github.com/guemidiborhane/explore-go/links"
+	"core"
+	"links"
+
+	application "core/config"
 )
 
 func main() {
-	initializers.InitDB()
-	initializers.InitServer()
+	core.Setup()
 	links.Setup()
 
 	application.Fiber.Listen(":3000")

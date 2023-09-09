@@ -1,10 +1,11 @@
 package initializers
 
 import (
+	application "core/config"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
-	application "github.com/guemidiborhane/explore-go/config"
 )
 
 func InitServer() {

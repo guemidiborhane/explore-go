@@ -1,10 +1,12 @@
 package handlers
 
 import (
+	"links/models"
+	"links/queries"
+
+	"core/utils"
+
 	"github.com/gofiber/fiber/v2"
-	"github.com/guemidiborhane/explore-go/links/models"
-	"github.com/guemidiborhane/explore-go/links/queries"
-	"github.com/guemidiborhane/explore-go/utils"
 )
 
 func Index(c *fiber.Ctx) error {

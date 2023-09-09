@@ -1,9 +1,9 @@
 package links
 
 import (
-	application "github.com/guemidiborhane/explore-go/config"
-	handlers "github.com/guemidiborhane/explore-go/links/handlers"
-	models "github.com/guemidiborhane/explore-go/links/models"
+	"links/handlers"
+	"links/models"
+	application "core/config"
 )
 
 func setupModels() {
