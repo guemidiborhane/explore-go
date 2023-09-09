@@ -46,3 +46,14 @@ func Destroy(link models.Link) error {
 
 	return tx.Error
 }
+
+func GetByShort(short string) (models.Link, error) {
+	var link models.Link
+	tx := application.Database.Where("short = ?", short).First(&link)
+
+	if tx.Error != nil {
+		return models.Link{}, tx.Error
+	}
+
+	return link, nil
+}

@@ -1,9 +1,9 @@
 package links
 
 import (
+	application "core/config"
 	"links/handlers"
 	"links/models"
-	application "core/config"
 )
 
 func setupModels() {
@@ -18,6 +18,8 @@ func setupRoutes() {
 	group.Get("/:id", handlers.Show)
 	group.Patch("/:id", handlers.Update)
 	group.Delete("/:id", handlers.Destroy)
+
+	application.Fiber.Get("/r/:short", handlers.Redirect)
 }
 
 func Setup() {

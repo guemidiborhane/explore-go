@@ -85,3 +85,14 @@ func Destroy(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusNoContent).JSON(link)
 }
+
+func Redirect(c *fiber.Ctx) error {
+	short := c.Params("short")
+	link, err := queries.GetByShort(short)
+
+	if err != nil {
+		return utils.HandleError(err, c)
+	}
+
+	return c.Status(fiber.StatusTemporaryRedirect).Redirect(link.Link)
+}
