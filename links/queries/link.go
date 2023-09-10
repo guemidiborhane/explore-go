@@ -18,42 +18,22 @@ func All() ([]models.Link, error) {
 	return links, nil
 }
 
-func Get(id uint64) (models.Link, error) {
-	var link models.Link
-	tx := application.Database.First(&link, id)
-
-	if tx.Error != nil {
-		return models.Link{}, tx.Error
-	}
-
-	return link, nil
+func Get(link *models.Link, id uint64) error {
+	return application.Database.First(&link, id).Error
 }
 
 func Create(link *models.Link) error {
-	tx := application.Database.Create(&link)
-
-	return tx.Error
+	return application.Database.Create(&link).Error
 }
 
-func Update(link models.Link) error {
-	tx := application.Database.Save(&link)
-
-	return tx.Error
+func Update(link *models.Link) error {
+	return application.Database.Save(&link).Error
 }
 
 func Destroy(link models.Link) error {
-	tx := application.Database.Delete(&link)
-
-	return tx.Error
+	return application.Database.Delete(&link).Error
 }
 
-func GetByShort(short string) (models.Link, error) {
-	var link models.Link
-	tx := application.Database.Where("short = ?", short).First(&link)
-
-	if tx.Error != nil {
-		return models.Link{}, tx.Error
-	}
-
-	return link, nil
+func GetByShort(link *models.Link, short string) error {
+	return application.Database.Where("short = ?", short).First(&link).Error
 }

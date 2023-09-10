@@ -4,7 +4,8 @@ import (
 	"links/models"
 	"links/queries"
 
-	"core/utils"
+	helpers "core/utils"
+	"links/utils"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -13,17 +14,17 @@ func Index(c *fiber.Ctx) error {
 	links, err := queries.All()
 
 	if err != nil {
-		return utils.HandleError(err, c)
+		return helpers.HandleError(err, c)
 	}
 
 	return c.Status(fiber.StatusOK).JSON(links)
 }
 
 func Show(c *fiber.Ctx) error {
-	id := utils.ParseUint(c.Params("id"), 64)
-	link, err := queries.Get(id)
+	var link models.Link
+	id := helpers.ParseUint(c.Params("id"), 64)
 
-	if err != nil {
+	if err := queries.Get(&link, id); err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 			"message": err.Error(),
 		})
@@ -44,7 +45,7 @@ func Create(c *fiber.Ctx) error {
 	}
 
 	if err := queries.Create(&link); err != nil {
-		return utils.HandleError(err, c)
+		return helpers.HandleError(err, c)
 	}
 
 	return c.Status(fiber.StatusCreated).JSON(link)
@@ -54,44 +55,41 @@ func Update(c *fiber.Ctx) error {
 	c.Accepts("application/json")
 
 	var link models.Link
-	link, err := queries.Get(utils.ParseUint(c.Params("id"), 64))
-
-	if err != nil {
-		return utils.HandleError(err, c)
+	id := helpers.ParseUint(c.Params("id"), 64)
+	if err := queries.Get(&link, id); err != nil {
+		return helpers.HandleError(err, c)
 	}
 
 	if err := c.BodyParser(&link); err != nil {
-		return utils.HandleError(err, c)
+		return helpers.HandleError(err, c)
 	}
 
-	if err := queries.Update(link); err != nil {
-		return utils.HandleError(err, c)
+	if err := queries.Update(&link); err != nil {
+		return helpers.HandleError(err, c)
 	}
 
 	return c.Status(fiber.StatusOK).JSON(link)
 }
 
 func Destroy(c *fiber.Ctx) error {
-	id := utils.ParseUint(c.Params("id"), 64)
-	link, err := queries.Get(id)
-
-	if err != nil {
-		return utils.HandleError(err, c)
+	var link models.Link
+	id := helpers.ParseUint(c.Params("id"), 64)
+	if err := queries.Get(&link, id); err != nil {
+		return helpers.HandleError(err, c)
 	}
 
 	if err := queries.Destroy(link); err != nil {
-		return utils.HandleError(err, c)
+		return helpers.HandleError(err, c)
 	}
 
 	return c.Status(fiber.StatusNoContent).JSON(link)
 }
 
 func Redirect(c *fiber.Ctx) error {
+	var link models.Link
 	short := c.Params("short")
-	link, err := queries.GetByShort(short)
-
-	if err != nil {
-		return utils.HandleError(err, c)
+	if err := queries.GetByShort(&link, short); err != nil {
+		return helpers.HandleError(err, c)
 	}
 
 	return c.Status(fiber.StatusTemporaryRedirect).Redirect(link.Link)
