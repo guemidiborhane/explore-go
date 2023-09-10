@@ -1,12 +1,23 @@
-FROM golang:1.21-alpine AS base-build
+ARG GO_VERSION
+FROM golang:${GO_VERSION}-alpine
+
+RUN apk add --update --no-cache git fish curl less build-base tzdata vim \
+  && go install github.com/cosmtrek/air@latest
 
 WORKDIR /app
-COPY . .
-RUN go mod download \
-  && go build -o /app/tmp/main
+VOLUME /app
 
-FROM alpine:3.18
+ENV PORT=3000
 
-COPY --from=base-build /app/tmp/main /app
-CMD ["/app"]
+ARG GROUP_ID
+ARG USER_ID
+ARG user=app
+RUN addgroup -g $GROUP_ID -S $user \
+  && adduser --disabled-password --gecos '' --uid $USER_ID --ingroup $user $user \
+  && chown -R $user:$user /app /go
+
+USER $user
+EXPOSE $PORT
+CMD ["air"]
+
 

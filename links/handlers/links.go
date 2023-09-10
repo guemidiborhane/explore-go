@@ -25,7 +25,7 @@ func Show(c *fiber.Ctx) error {
 
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-			"message": err,
+			"message": err.Error(),
 		})
 	}
 
@@ -39,7 +39,7 @@ func Create(c *fiber.Ctx) error {
 
 	if err := c.BodyParser(&link); err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-			"message": err,
+			"message": err.Error(),
 		})
 	}
 

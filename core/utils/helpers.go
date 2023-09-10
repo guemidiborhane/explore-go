@@ -34,7 +34,7 @@ func ParseUint(str string, bitSize int) uint64 {
 func HandleError(err error, c *fiber.Ctx) error {
 	return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 		"status":  "error",
-		"message": err,
+		"message": err.Error(),
 	})
 }
 

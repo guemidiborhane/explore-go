@@ -9,7 +9,9 @@ import (
 )
 
 func InitServer() {
-	app := fiber.New()
+	app := fiber.New(fiber.Config{
+		Prefork: true,
+	})
 
 	app.Use(cors.New(cors.Config{
 		AllowOrigins: "*",
