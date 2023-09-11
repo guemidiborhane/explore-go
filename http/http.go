@@ -1,0 +1,33 @@
+package http
+
+import (
+	"core/server"
+	"core/utils"
+	"fmt"
+	"log"
+	"os"
+	"os/signal"
+	"syscall"
+)
+
+func setupSignal() {
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
+	go func() {
+		_ = <-c
+		fmt.Println("Gracefully shutting down...")
+		_ = server.Application.Shutdown()
+	}()
+}
+
+func Start() {
+	setupSignal()
+	var (
+		host string = utils.GetEnv("HOST", "0.0.0.0")
+		port uint64 = utils.ParseUint(utils.GetEnv("PORT", "3000"), 64)
+	)
+
+	if err := server.Application.Listen(fmt.Sprintf("%s:%d", host, port)); err != nil {
+		log.Panic(err.Error())
+	}
+}

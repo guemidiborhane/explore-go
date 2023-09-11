@@ -1,30 +1,15 @@
 package main
 
 import (
-	"core"
-	"fmt"
-	"links"
-
-	application "core/config"
-	"core/utils"
-
-	"log"
-
-	"github.com/joho/godotenv"
+	"github.com/guemidiborhane/explore-go/config"
+	"github.com/guemidiborhane/explore-go/http"
+	"github.com/guemidiborhane/explore-go/modules"
+	"github.com/guemidiborhane/explore-go/routes"
 )
 
 func main() {
-	if err := godotenv.Load(); err != nil {
-		log.Print("Error loading .env file")
-	}
-	core.Setup()
-	links.Setup()
-
-	application.Fiber.Listen(
-		fmt.Sprintf(
-			"%s:%d",
-			utils.GetEnv("HOST", "0.0.0.0"),
-			utils.ParseUint(utils.GetEnv("PORT", "3000"), 64),
-		),
-	)
+	config.Load()
+	modules.Setup()
+	routes.Setup()
+	http.Start()
 }
