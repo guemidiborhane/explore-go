@@ -1,6 +1,17 @@
 version: '3'
 
 services:
+  redis:
+    image: redis:7-alpine
+    command: redis-server --save 60 1 --loglevel warning
+    volumes:
+      - redis:/data
+    healthcheck:
+      test: redis-cli ping
+      interval: 1s
+      timeout: 3s
+      retries: 30
+
   db:
     image: postgis/postgis:13-3.0-alpine
     environment:
@@ -24,6 +35,8 @@ services:
         GO_VERSION: ${GO_VERSION:-1.21}
     depends_on:
       db:
+        condition: service_healthy
+      redis:
         condition: service_healthy
       frontend:
         condition: service_healthy
@@ -52,5 +65,6 @@ services:
       interval: 5s
 
 volumes:
+  redis:
   postgres:
   go_pkg:
