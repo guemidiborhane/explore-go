@@ -1,13 +1,15 @@
-ARG GO_VERSION
+ARG GO_VERSION=1.21
 ARG NODEJS_VERSION=18.12
 FROM node:${NODEJS_VERSION}-alpine AS node
 
-WORKDIR /app
 RUN apk add --no-cache yarn
 
-COPY . /app
+WORKDIR /app
+
+COPY package.json yarn.lock ./
 RUN yarn install
 
+COPY . .
 RUN NODE_ENV=production yarn run build
 
 ARG GO_VERSION=1.21
@@ -16,10 +18,11 @@ FROM golang:${GO_VERSION}-alpine AS base-build
 WORKDIR /app
 RUN apk add --no-cache dumb-init
 
-COPY . /app
+COPY go.mod go.sum ./
 RUN go mod download
 
-COPY --from=node /app/modules/ui/build /app/modules/ui/build
+COPY . .
+COPY --from=node /app/build ./build
 RUN CGO_ENABLED=0 go install -ldflags '-extldflags "-static"' -tags timetzdata
 
 FROM scratch

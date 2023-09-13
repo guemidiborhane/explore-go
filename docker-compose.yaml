@@ -48,7 +48,7 @@ services:
     volumes:
       - ./:/app
     healthcheck:
-      test: test -f /app/modules/ui/build/index.html
+      test: test -f /app/build/index.html
       interval: 5s
 
 volumes:

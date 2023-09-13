@@ -24,17 +24,17 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "modules/ui/src/*"
+      "~/*": [
+        "static/*"
       ],
-      "@links/*": [
-        "modules/links/ui/*"
+      "@/*": [
+        "pkg/*"
       ]
     }
   },
   "include": [
-    "modules/ui/src",
-    "modeles/**/ui"
+    "static/",
+    "pkg/"
   ],
   "references": [
     {
