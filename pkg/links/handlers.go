@@ -6,6 +6,11 @@ import (
 	"github.com/guemidiborhane/explore-go/utils"
 )
 
+var (
+	NotFoundError   *errors.HttpError = errors.EntityNotFound("Link not found")
+	BadRequestError *errors.HttpError = errors.BadRequest("Invalid parameters")
+)
+
 func Index(c *fiber.Ctx) error {
 	var links []Link
 	if err := All(&links); err != nil {
@@ -20,7 +25,7 @@ func Show(c *fiber.Ctx) error {
 	id := utils.ParseUint(c.Params("id"), 64)
 
 	if err := Get(&link, id); err != nil {
-		return err
+		return NotFoundError
 	}
 
 	return c.Status(fiber.StatusOK).JSON(link)
@@ -36,7 +41,7 @@ func New(c *fiber.Ctx) error {
 	link.Short = RandomShort(8)
 
 	if err := c.BodyParser(&link); err != nil {
-		return errors.BadRequest("Invalid params")
+		return BadRequestError
 	}
 
 	if err := Create(&link); err != nil {
@@ -52,11 +57,11 @@ func Edit(c *fiber.Ctx) error {
 	var link Link
 	id := utils.ParseUint(c.Params("id"), 64)
 	if err := Get(&link, id); err != nil {
-		return errors.EntityNotFound("Link not found")
+		return NotFoundError
 	}
 
 	if err := c.BodyParser(&link); err != nil {
-		return errors.BadRequest("Invalid params")
+		return BadRequestError
 	}
 
 	if err := Update(&link); err != nil {
@@ -70,7 +75,7 @@ func Delete(c *fiber.Ctx) error {
 	var link Link
 	id := utils.ParseUint(c.Params("id"), 64)
 	if err := Get(&link, id); err != nil {
-		return err
+		return NotFoundError
 	}
 
 	if err := Destroy(link); err != nil {
@@ -84,7 +89,7 @@ func Redirect(c *fiber.Ctx) error {
 	var link Link
 	short := c.Params("short")
 	if err := GetByShort(&link, short); err != nil {
-		return err
+		return NotFoundError
 	}
 
 	return c.Status(fiber.StatusTemporaryRedirect).Redirect(link.Link)

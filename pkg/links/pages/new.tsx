@@ -18,7 +18,7 @@ export async function action({ request }: ActionFunctionArgs) {
     return null
 }
 
-export function Component() {
+export default function NewLink() {
     const { link } = useLoaderData<LinkData>()
 
     return (
@@ -27,4 +27,3 @@ export function Component() {
         </>
     )
 }
-Component.displayName = 'CreateLink'

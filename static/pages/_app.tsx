@@ -1,6 +1,6 @@
 import { Link, Outlet } from "react-router-dom";
 
-export function Component() {
+export default function RootLayout() {
     return (
         <>
             <Link to="/links">Links</Link>

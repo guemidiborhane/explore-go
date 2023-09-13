@@ -13,7 +13,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     return null
 }
 
-export function Component() {
+export default function EditLink() {
     const { link } = useLoaderData<LinkData>()
 
     return (
@@ -22,5 +22,3 @@ export function Component() {
         </>
     )
 }
-
-Component.displayName = "EditLink"

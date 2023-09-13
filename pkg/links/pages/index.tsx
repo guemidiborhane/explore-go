@@ -6,7 +6,7 @@ import { Link as RouterLink } from 'react-router-dom'
 
 export const loader = linksLoader
 
-export function Component() {
+export default function IndexLinks() {
     const { links } = useLoaderData<{ links: Link[] }>()
 
     return (
@@ -16,4 +16,3 @@ export function Component() {
         </>
     )
 }
-Component.displayName = "IndexLinks"

@@ -13,7 +13,11 @@ export const Card = ({ link }: { link: Link; }) => {
     }
     return (
         <>
-            <h3>{link.link}</h3>
+            <h3>
+                <RouterLink to={`/links/${link.ID}`}>
+                    {link.link}
+                </RouterLink>
+            </h3>
             <RouterLink key={link.ID} to={`/links/${link.ID}/edit`}>Edit</RouterLink>
             <Form method="DELETE" action={`/links/${link.ID}/destroy`} onSubmit={handleDelete}>
                 <button>Delete</button>

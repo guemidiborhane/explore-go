@@ -1,4 +1,4 @@
-import { LoaderFunction } from "react-router-dom";
+import { LoaderFunction, redirect } from "react-router-dom";
 import { fetchApi } from "~/helpers";
 import { Link } from "./types";
 
@@ -15,9 +15,11 @@ export type LinkData = {
     link: Link
 }
 const linkLoader: LoaderFunction = async ({ params }) => {
-    const [link] = await fetchApi<Link>(`/api/links/${params.id}`)
+    const [link, ok] = await fetchApi<Link>(`/api/links/${params.id}`)
 
-    return { link }
+    if (ok) return { link }
+
+    return redirect('/404')
 }
 
 
