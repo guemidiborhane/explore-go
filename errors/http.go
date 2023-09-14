@@ -35,3 +35,5 @@ func BadRequest(m string) *HttpError {
 func Unexpected(m string) *HttpError {
 	return &HttpError{Status: 500, Code: "internal-server", Message: m}
 }
+
+var Unauthorized = &HttpError{Status: 401, Code: "unauthorized", Message: "You're not authorized"}

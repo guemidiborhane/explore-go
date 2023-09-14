@@ -13,3 +13,11 @@ func RandomShort(size uint64) string {
 
 	return string(str)
 }
+
+func response(link *Link) ResponseBody {
+	return ResponseBody{
+		ID:    link.ID,
+		Link:  link.Link,
+		Short: link.Short,
+	}
+}

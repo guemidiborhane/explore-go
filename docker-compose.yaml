@@ -12,6 +12,17 @@ services:
       timeout: 3s
       retries: 30
 
+  redis-ui:
+    image: rediscommander/redis-commander:latest
+    restart: always
+    depends_on:
+      redis:
+        condition: service_healthy
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8081:8081"
+
   db:
     image: postgis/postgis:13-3.0-alpine
     environment:

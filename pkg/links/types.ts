@@ -1,5 +1,5 @@
 export type Link = {
-    ID: number
+    id: number
     short: string
     link: string
 }

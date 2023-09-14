@@ -19,8 +19,8 @@ func All(links *[]Link) error {
 	return nil
 }
 
-func Get(link *Link, id uint64) error {
-	if err := database.First(&link, id).Error; err != nil {
+func Get(link *Link) error {
+	if err := database.First(&link, link.ID).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return e.EntityNotFound("No link found")
 		}
@@ -55,8 +55,8 @@ func Destroy(link Link) error {
 	return nil
 }
 
-func GetByShort(link *Link, short string) error {
-	if err := database.Where("short = ?", short).First(&link).Error; err != nil {
+func GetByShort(link *Link) error {
+	if err := database.Where("short = ?", link.Short).First(&link).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return e.EntityNotFound("No link found")
 		}

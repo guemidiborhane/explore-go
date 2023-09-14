@@ -1,93 +1,104 @@
-import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
-import { StrictMode } from "preact/compat";
+import { ActionFunctionArgs, LoaderFunctionArgs, Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
+import { StrictMode, type FC } from "preact/compat";
+import Protected from "@/auth/components/protected";
 
-const ROUTES = import.meta.glob('/**/pages/**/[a-z[]*.ts(x)?')
-const PRESERVED = import.meta.glob('/**/pages/(_app|404).tsx')
+type LazyComponent = {
+    default: FC;
+    protect: boolean;
+    action: (args: ActionFunctionArgs) => Response | null;
+    loader: (args: LoaderFunctionArgs) => Response;
+};
 
-const lazyLoader = (promise: any) => {
+type PreservedRoutes = Record<string, () => Promise<LazyComponent>>;
+
+// @ts-ignore
+const ROUTES = import.meta.glob('/**/pages/**/[a-z[]*.ts(x)?');
+// @ts-ignore
+const PRESERVED = import.meta.glob('/**/pages/(_app|404).tsx');
+
+const lazyLoader = (promise: () => Promise<LazyComponent>) => {
     return async () => {
-        const { default: Component, action, loader } = await promise()
+        const { default: Component, action, loader, protect } = await promise();
+        // @ts-ignore
+        const ProtectedComponent = () => <Protected><Component /></Protected>;
 
-        return { Component, action, loader }
-    }
-}
+        return { Component: protect ? ProtectedComponent : Component, action, loader };
+    };
+};
 
 const normalize = (str: string): string => {
-    return str.replace(/\/pkg\/|\/static\//, '')
-        .replace(/pages\//, '')
-        .replace(/\/index/, '')
-        .replace(/\.ts(x?)$/, '')
-        .replace(/\[\.{3}.+\]/, '*')
-        .replace(/\[(.+)\]/, ':$1')
+    return str
+        .replace(/\/pkg\/|\/static\//, "")
+        .replace(/pages\//, "")
+        .replace(/\/index/, "")
+        .replace(/\.ts(x?)$/, "")
+        .replace(/\[\.{3}.+\]/, "*")
+        .replace(/\[(.+)\]/, ":$1");
+};
 
-}
-
-const preserved: { [key: string]: any } = Object.keys(PRESERVED).reduce((preserved, file) => {
-    return { ...preserved, [normalize(file)]: lazyLoader(PRESERVED[file]) }
-}, {})
+const preserved: PreservedRoutes = Object.keys(PRESERVED).reduce((preserved, file) => {
+    return { ...preserved, [normalize(file)]: lazyLoader(PRESERVED[file]) };
+}, {});
 
 const getPreserved = async (name: string) => {
-    const layout = preserved?.[name] && await preserved?.[name]()
-    if (layout) return layout
+    const layout = preserved[name] && (await preserved[name]());
+    if (layout) return layout;
 
-    return { Component: Outlet }
-}
+    return { Component: Outlet };
+};
 
-const children = Object.keys(ROUTES).reduce((c, file) => {
-    let [pkg, ...p] = normalize(file).split('/')
-    const path = (p as string[]).join('/')
+const children = Object.keys(ROUTES).map((file) => {
+    let [pkg, ...p] = normalize(file).split('/');
+    const path = p.join('/');
 
-    const lazy = lazyLoader(ROUTES[file])
+    const lazy = lazyLoader(ROUTES[file]);
 
-    return [...c, { path, lazy, pkg }]
-}, [])
+    return { path, lazy, pkg };
+});
 
-const childrenByPkg = children.reduce((group, child) => {
-    const { pkg } = child
-    group[pkg] = group[pkg] ?? []
-    group[pkg].push(child)
+const childrenByPkg: Record<string, any[]> = children.reduce((group, child) => {
+    const { pkg } = child;
+    group[pkg] = group[pkg] ?? [];
+    group[pkg].push(child);
 
-    return group
-}, {})
+    return group;
+}, {} as Record<string, any>);
 
 const routes = [
     {
         path: '/',
         async lazy() {
-            return await getPreserved('_app')
+            return await getPreserved('_app');
         },
         children: [
             ...Object.keys(childrenByPkg).map((pkg) => {
                 return {
                     path: `/${pkg}`,
                     async lazy() {
-                        return await getPreserved(`${pkg}/_app`)
+                        return await getPreserved(`${pkg}/_app`);
                     },
                     children: [
                         ...childrenByPkg[pkg],
-                    ]
-                }
+                    ],
+                };
             }),
 
             {
                 path: '*',
                 async lazy() {
-                    return await getPreserved('404')
-                }
-            }
+                    return await getPreserved('404');
+                },
+            },
+        ],
+    },
+];
 
-        ]
-    }
-]
-
-console.log(preserved)
-
-const router = createBrowserRouter(routes)
+const router = createBrowserRouter(routes);
 
 export function Router() {
     return (
         <StrictMode>
             <RouterProvider router={router} />
         </StrictMode>
-    )
+    );
 }

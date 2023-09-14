@@ -7,8 +7,8 @@ import (
 )
 
 type SetupArgs struct {
-	Application  *fiber.App
-	Router       *fiber.Router
-	Database     *gorm.DB
-	SessionStore *session.Store
+	Application *fiber.App
+	Router      *fiber.Router
+	Database    *gorm.DB
+	Session     *session.Store
 }

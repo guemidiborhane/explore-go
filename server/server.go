@@ -1,7 +1,9 @@
 package server
 
 import (
+	"github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
+
 	"github.com/guemidiborhane/explore-go/errors"
 )
 
@@ -11,6 +13,8 @@ func Setup() {
 	App = fiber.New(fiber.Config{
 		Prefork:      true,
 		ErrorHandler: errors.HandleHttpErrors,
+		JSONEncoder:  json.Marshal,
+		JSONDecoder:  json.Unmarshal,
 	})
 }
 

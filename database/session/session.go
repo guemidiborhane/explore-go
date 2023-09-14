@@ -8,7 +8,7 @@ import (
 	"github.com/guemidiborhane/explore-go/utils"
 )
 
-var redisConfig = &redis.Config{
+var redisConfig = redis.Config{
 	Host:     utils.GetEnv("REDIS_HOST", "localhost"),
 	Port:     utils.ParseInt(utils.GetEnv("REDIS_PORT", "6379")),
 	Username: utils.GetEnv("REDIS_USERNAME", ""),
@@ -18,7 +18,7 @@ var redisConfig = &redis.Config{
 
 var (
 	Session *session.Store
-	storage *redis.Storage = redis.New(*redisConfig)
+	storage *redis.Storage = redis.New(redisConfig)
 )
 
 func Setup() {

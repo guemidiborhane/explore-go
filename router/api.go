@@ -10,4 +10,9 @@ var ApiRouter fiber.Router
 
 func Setup() {
 	ApiRouter = server.App.Group("/api", logger.New())
+	ApiRouter.Use(func(c *fiber.Ctx) error {
+		c.Accepts("application/json")
+
+		return c.Next()
+	})
 }
