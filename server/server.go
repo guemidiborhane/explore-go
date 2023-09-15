@@ -4,7 +4,7 @@ import (
 	"github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
 
-	"github.com/guemidiborhane/explore-go/errors"
+	"explore-go/errors"
 )
 
 var App *fiber.App

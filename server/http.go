@@ -7,8 +7,8 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/guemidiborhane/explore-go/database"
-	"github.com/guemidiborhane/explore-go/utils"
+	"explore-go/database"
+	"explore-go/utils"
 )
 
 func setupSignal() {

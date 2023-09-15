@@ -2,7 +2,7 @@ package auth
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/guemidiborhane/explore-go/errors"
+	"explore-go/errors"
 )
 
 func GetCurrentUser(c *fiber.Ctx, user *User) error {

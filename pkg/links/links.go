@@ -2,7 +2,7 @@ package links
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/guemidiborhane/explore-go/pkg/setup"
+	"explore-go/pkg/setup"
 )
 
 var app *fiber.App

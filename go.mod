@@ -1,4 +1,4 @@
-module github.com/guemidiborhane/explore-go
+module explore-go
 
 go 1.21.0
 
@@ -7,8 +7,6 @@ require (
 	github.com/goccy/go-json v0.10.2
 	github.com/gofiber/fiber/v2 v2.49.1
 	github.com/gofiber/storage/redis v1.3.4
-	github.com/gofiber/utils v1.0.1
-	github.com/google/uuid v1.3.1
 	github.com/joho/godotenv v1.5.1
 	golang.org/x/crypto v0.13.0
 	gorm.io/driver/postgres v1.5.2
@@ -22,6 +20,7 @@ require (
 	github.com/gabriel-vasile/mimetype v1.4.2 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
+	github.com/google/uuid v1.3.1 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a // indirect
 	github.com/jackc/pgx/v5 v5.3.1 // indirect

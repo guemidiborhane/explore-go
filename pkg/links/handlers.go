@@ -1,9 +1,10 @@
 package links
 
 import (
+	"explore-go/errors"
+	"explore-go/utils"
+
 	"github.com/gofiber/fiber/v2"
-	"github.com/guemidiborhane/explore-go/errors"
-	"github.com/guemidiborhane/explore-go/utils"
 )
 
 var (
@@ -50,7 +51,7 @@ func Build(c *fiber.Ctx) error {
 func New(c *fiber.Ctx) error {
 	c.Accepts("application/json")
 	var link Link
-	link.Short = RandomShort(8)
+	link.Short = utils.Random(8)
 
 	if err := c.BodyParser(&link); err != nil {
 		return BadRequestError

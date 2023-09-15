@@ -2,7 +2,7 @@ package database
 
 import (
 	"github.com/gofiber/storage/redis"
-	"github.com/guemidiborhane/explore-go/utils"
+	"explore-go/utils"
 )
 
 var redisConfig = redis.Config{

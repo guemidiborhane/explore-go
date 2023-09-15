@@ -3,7 +3,7 @@ package auth
 import (
 	"errors"
 
-	e "github.com/guemidiborhane/explore-go/errors"
+	e "explore-go/errors"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )

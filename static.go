@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gofiber/fiber/v2/middleware/filesystem"
-	"github.com/guemidiborhane/explore-go/server"
+	"explore-go/server"
 )
 
 //go:embed all:build

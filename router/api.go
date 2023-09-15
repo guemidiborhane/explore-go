@@ -3,7 +3,7 @@ package router
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
-	"github.com/guemidiborhane/explore-go/server"
+	"explore-go/server"
 )
 
 var ApiRouter fiber.Router

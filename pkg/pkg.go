@@ -1,13 +1,13 @@
 package pkg
 
 import (
-	"github.com/guemidiborhane/explore-go/database"
-	"github.com/guemidiborhane/explore-go/database/session"
-	"github.com/guemidiborhane/explore-go/pkg/auth"
-	"github.com/guemidiborhane/explore-go/pkg/links"
-	"github.com/guemidiborhane/explore-go/pkg/setup"
-	"github.com/guemidiborhane/explore-go/router"
-	"github.com/guemidiborhane/explore-go/server"
+	"explore-go/database"
+	"explore-go/database/session"
+	"explore-go/pkg/auth"
+	"explore-go/pkg/links"
+	"explore-go/pkg/setup"
+	"explore-go/router"
+	"explore-go/server"
 )
 
 func registerPkgs(args *setup.SetupArgs) {

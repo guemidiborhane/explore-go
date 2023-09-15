@@ -2,8 +2,8 @@ package auth
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/guemidiborhane/explore-go/config/validator"
-	"github.com/guemidiborhane/explore-go/errors"
+	"explore-go/config/validator"
+	"explore-go/errors"
 )
 
 func validateUser(c *fiber.Ctx) error {

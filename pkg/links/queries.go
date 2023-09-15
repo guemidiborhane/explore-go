@@ -3,7 +3,7 @@ package links
 import (
 	"errors"
 
-	e "github.com/guemidiborhane/explore-go/errors"
+	e "explore-go/errors"
 	"gorm.io/gorm"
 )
 

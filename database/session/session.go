@@ -1,11 +1,11 @@
 package session
 
 import (
+	"explore-go/database"
+	"explore-go/utils"
 	"time"
 
 	"github.com/gofiber/fiber/v2/middleware/session"
-	"github.com/guemidiborhane/explore-go/database"
-	"github.com/guemidiborhane/explore-go/utils"
 )
 
 var Session *session.Store
@@ -16,6 +16,6 @@ func Setup() {
 		CookieHTTPOnly: true,
 		Expiration:     24 * time.Hour,
 		KeyLookup:      "cookie:session_id",
-		KeyGenerator:   utils.UUIDv4,
+		KeyGenerator:   utils.RandomID,
 	})
 }

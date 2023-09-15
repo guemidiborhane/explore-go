@@ -2,13 +2,13 @@ package main
 
 import (
 	"github.com/gofiber/fiber/v2/middleware/monitor"
-	"github.com/guemidiborhane/explore-go/config"
-	"github.com/guemidiborhane/explore-go/config/validator"
-	"github.com/guemidiborhane/explore-go/database"
-	"github.com/guemidiborhane/explore-go/database/session"
-	"github.com/guemidiborhane/explore-go/pkg"
-	"github.com/guemidiborhane/explore-go/router"
-	"github.com/guemidiborhane/explore-go/server"
+	"explore-go/config"
+	"explore-go/config/validator"
+	"explore-go/database"
+	"explore-go/database/session"
+	"explore-go/pkg"
+	"explore-go/router"
+	"explore-go/server"
 )
 
 func main() {

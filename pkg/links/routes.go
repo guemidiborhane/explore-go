@@ -2,7 +2,7 @@ package links
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/guemidiborhane/explore-go/pkg/auth"
+	"explore-go/pkg/auth"
 )
 
 var router fiber.Router

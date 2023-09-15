@@ -3,7 +3,7 @@ package auth
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/session"
-	"github.com/guemidiborhane/explore-go/pkg/setup"
+	"explore-go/pkg/setup"
 )
 
 var (

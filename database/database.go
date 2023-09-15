@@ -3,7 +3,7 @@ package database
 import (
 	"fmt"
 
-	"github.com/guemidiborhane/explore-go/utils"
+	"explore-go/utils"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )

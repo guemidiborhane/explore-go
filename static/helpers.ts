@@ -23,12 +23,14 @@ export async function fetchApi<T>(url: string, params: Params = { method: 'GET' 
     return fetch(url, {
         ...params,
         body: JSON.stringify(body),
-        credentials: 'include',
+        credentials: 'same-origin',
         headers: {
             "Content-type": "application/json; charset=UTF-8",
-            "Accept": "application/json"
+            "Accept": "application/json",
+            "X-CSRF-Token": csrfToken
         },
     }).then(async (response) => {
+        document.querySelector("meta[name=csrf-token]")?.setAttribute('content', csrfToken!)
         return [await response.json(), response.ok, response.status, controller]
     });
 }
@@ -44,3 +46,10 @@ export async function destroyAction(url: string, response: Response): Promise<Re
 
     return null
 }
+
+export const csrfToken: string = (() => {
+    const cookie = document.cookie.split('; ').find(row => row.startsWith('csrf_='))?.split('=')
+    const [, token] = cookie || ["", ""]
+
+    return token
+})()
