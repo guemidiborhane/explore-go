@@ -21,14 +21,14 @@ func GetCurrentUser(c *fiber.Ctx, user *User) error {
 		return errors.Unauthorized
 	}
 
-	if err := Get(user); err != nil {
+	if err := user.Get(); err != nil {
 		return NotFoundError
 	}
 
 	return nil
 }
 
-func response(user *User) *ResponseBody {
+func (user *User) JSONResponse() *ResponseBody {
 	return &ResponseBody{
 		ID:       user.ID,
 		Username: user.Username,

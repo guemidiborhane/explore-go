@@ -14,7 +14,7 @@ func RandomShort(size uint64) string {
 	return string(str)
 }
 
-func response(link *Link) ResponseBody {
+func (link *Link) JSONResponse() ResponseBody {
 	return ResponseBody{
 		ID:    link.ID,
 		Link:  link.Link,

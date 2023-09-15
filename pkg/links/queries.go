@@ -19,7 +19,7 @@ func All(links *[]Link) error {
 	return nil
 }
 
-func Get(link *Link) error {
+func (link *Link) Get() error {
 	if err := database.First(&link, link.ID).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return e.EntityNotFound("No link found")
@@ -31,7 +31,7 @@ func Get(link *Link) error {
 	return nil
 }
 
-func Create(link *Link) error {
+func (link *Link) Create() error {
 	if err := database.Create(&link).Error; err != nil {
 		return e.Unexpected(err.Error())
 	}
@@ -39,7 +39,7 @@ func Create(link *Link) error {
 	return nil
 }
 
-func Update(link *Link) error {
+func (link *Link) Update() error {
 	if err := database.Save(&link).Error; err != nil {
 		return e.Unexpected(err.Error())
 	}
@@ -47,7 +47,7 @@ func Update(link *Link) error {
 	return nil
 }
 
-func Destroy(link Link) error {
+func (link Link) Destroy() error {
 	if err := database.Delete(&link).Error; err != nil {
 		return e.Unexpected(err.Error())
 	}
@@ -55,7 +55,7 @@ func Destroy(link Link) error {
 	return nil
 }
 
-func GetByShort(link *Link) error {
+func (link *Link) GetByShort() error {
 	if err := database.Where("short = ?", link.Short).First(&link).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return e.EntityNotFound("No link found")

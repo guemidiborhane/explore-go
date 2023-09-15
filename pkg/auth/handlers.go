@@ -26,11 +26,11 @@ func Register(c *fiber.Ctx) error {
 		return BadRequestError
 	}
 
-	if err := Create(&user); err != nil {
+	if err := user.Create(); err != nil {
 		return errors.Unexpected(err.Error())
 	}
 
-	return c.Status(fiber.StatusCreated).JSON(response(&user))
+	return c.Status(fiber.StatusCreated).JSON(user.JSONResponse())
 }
 
 func Show(c *fiber.Ctx) error {
@@ -40,7 +40,7 @@ func Show(c *fiber.Ctx) error {
 		return err
 	}
 
-	return c.JSON(response(&user))
+	return c.JSON(user.JSONResponse())
 }
 
 func Login(c *fiber.Ctx) error {
@@ -54,7 +54,7 @@ func Login(c *fiber.Ctx) error {
 		Username: body.Username,
 	}
 
-	if err := GetByUsername(&user); err != nil {
+	if err := user.GetByUsername(); err != nil {
 		return NotFoundError
 	}
 
@@ -64,7 +64,7 @@ func Login(c *fiber.Ctx) error {
 
 	setSession(c, &user)
 
-	return c.Status(fiber.StatusOK).JSON(response(&user))
+	return c.Status(fiber.StatusOK).JSON(user.JSONResponse())
 }
 
 func Logout(c *fiber.Ctx) error {

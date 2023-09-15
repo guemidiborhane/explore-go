@@ -21,7 +21,12 @@ export default function Auth() {
         })()
     }, [])
 
-    if (!signedIn) return <Link to="/auth/new">Sign In</Link>
+    if (!signedIn) return (
+        <>
+            <Link to="/auth/new">Sign in</Link>
+            <Link to="/auth/users/new">Sign up</Link>
+        </>
+    )
 
 
     return (

@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func Create(user *User) error {
+func (user *User) Create() error {
 	password, _ := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	user.Password = string(password)
 
@@ -19,7 +19,7 @@ func Create(user *User) error {
 	return nil
 }
 
-func Get(user *User) error {
+func (user *User) Get() error {
 	if err := database.First(&user, user.ID).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return e.EntityNotFound("No user found")
@@ -31,7 +31,7 @@ func Get(user *User) error {
 	return nil
 }
 
-func GetByUsername(user *User) error {
+func (user *User) GetByUsername() error {
 	if err := database.Where("username = ?", user.Username).First(&user).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return e.EntityNotFound("No user found")
