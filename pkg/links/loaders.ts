@@ -5,8 +5,8 @@ import { Link } from "./types";
 export type LinksData = {
     link: Link[]
 }
-const linksLoader: LoaderFunction = ({ request }) => {
-    return fetchApi<Link[]>('/api/links', { signal: request.signal })
+const linksLoader: LoaderFunction = async ({ request }) => {
+    return await fetchApi<Link[]>('/api/links', { signal: request.signal })
 }
 
 export type LinkData = {

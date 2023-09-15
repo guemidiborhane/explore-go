@@ -15,4 +15,5 @@ func Setup() {
 
 		return c.Next()
 	})
+	server.SetupMiddlewares(ApiRouter)
 }

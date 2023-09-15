@@ -23,6 +23,7 @@ func main() {
 	router.Setup()
 	pkg.Setup()
 	router.ApiRouter.Use("/monitor", monitor.New())
+
 	SetupStatic()
 	server.Start()
 }

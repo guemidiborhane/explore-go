@@ -26,8 +26,11 @@ export async function fetchApi<T>(url: string, params: Params = { method: 'GET' 
         credentials: 'include',
         headers: {
             "Content-type": "application/json; charset=UTF-8",
+            "Accept": "application/json"
         },
-    }).then(async (response) => [await response.json(), response.ok, response.status, controller]);
+    }).then(async (response) => {
+        return [await response.json(), response.ok, response.status, controller]
+    });
 }
 
 export function useLoaderData<T>(): APIResponse<T> {

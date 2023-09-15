@@ -7,6 +7,7 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/guemidiborhane/explore-go/database"
 	"github.com/guemidiborhane/explore-go/utils"
 )
 
@@ -17,6 +18,13 @@ func setupSignal() {
 		_ = <-c
 		fmt.Println("Gracefully shutting down...")
 		_ = App.Shutdown()
+
+		sql, err := database.DB.DB()
+		if err != nil {
+			panic(err)
+		}
+
+		_ = sql.Close()
 	}()
 }
 
