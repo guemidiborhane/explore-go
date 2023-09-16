@@ -2,8 +2,8 @@ import { type ActionFunctionArgs, Link, Outlet, redirectDocument } from "react-r
 import Auth from "~/components/auth";
 import { fetchApi } from "~/helpers";
 
+import './global.scss'
 export async function action({ request }: ActionFunctionArgs) {
-    console.log(request)
     const { signal } = request
     const [, ok] = await fetchApi<{}>('/api/auth/session', { method: 'DELETE', signal })
 

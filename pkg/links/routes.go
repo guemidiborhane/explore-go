@@ -1,14 +1,15 @@
 package links
 
 import (
-	"github.com/gofiber/fiber/v2"
 	"explore-go/pkg/auth"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 var router fiber.Router
 
 func setupRoutes() {
-	group := router.Group("/links", auth.Auth)
+	group := router.Group("/links", auth.CheckAuthenticated)
 
 	group.Get("/", Index)
 	group.Get("/new", Build)

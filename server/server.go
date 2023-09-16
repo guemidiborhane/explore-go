@@ -1,10 +1,10 @@
 package server
 
 import (
+	"explore-go/errors"
+
 	"github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
-
-	"explore-go/errors"
 )
 
 var App *fiber.App

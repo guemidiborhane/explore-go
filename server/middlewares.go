@@ -14,15 +14,17 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/recover"
 )
 
+var CsrfMiddleware = csrf.New(csrf.Config{
+	Storage:        database.Storage,
+	CookieSameSite: "Strict",
+	KeyGenerator:   utils.RandomID,
+	ErrorHandler:   errors.HandleHttpErrors,
+})
+
 func SetupMiddlewares(router fiber.Router) {
 	router.Use(helmet.New())
 	router.Use(cors.New())
-	router.Use(csrf.New(csrf.Config{
-		Storage:        database.Storage,
-		CookieSameSite: "Strict",
-		KeyGenerator:   utils.RandomID,
-		ErrorHandler:   errors.HandleHttpErrors,
-	}))
+	router.Use(CsrfMiddleware)
 	router.Use(recover.New())
 	router.Use(compress.New(compress.Config{
 		Level: compress.LevelBestSpeed, // 1

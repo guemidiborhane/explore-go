@@ -2,8 +2,11 @@ package links
 
 import (
 	"errors"
+	"explore-go/server/websocket"
+	"fmt"
 
 	e "explore-go/errors"
+
 	"gorm.io/gorm"
 )
 
@@ -34,6 +37,11 @@ func (link *Link) Get() error {
 func (link *Link) Create() error {
 	if err := database.Create(&link).Error; err != nil {
 		return e.Unexpected(err.Error())
+	} else {
+		websocket.Send(websocket.Message{
+			Channel: "links",
+			Message: fmt.Sprintf("link '%s' added successfully", link.Link),
+		})
 	}
 
 	return nil

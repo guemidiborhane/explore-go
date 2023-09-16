@@ -1,9 +1,10 @@
 package auth
 
 import (
-	"github.com/gofiber/fiber/v2"
 	"explore-go/config/validator"
 	"explore-go/errors"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 func validateUser(c *fiber.Ctx) error {
@@ -19,9 +20,8 @@ func validateLogin(c *fiber.Ctx) error {
 	return validator.Validate(c, new(LoginRequest))
 }
 
-func Auth(c *fiber.Ctx) error {
+func CheckAuthenticated(c *fiber.Ctx) error {
 	session, err := store.Get(c)
-
 	if err != nil {
 		return errors.Unauthorized
 	}
@@ -29,6 +29,8 @@ func Auth(c *fiber.Ctx) error {
 	if session.Get(AUTH_KEY) == nil {
 		return errors.Unauthorized
 	}
+
+	c.Locals(USER_ID, session.Get(USER_ID).(uint))
 
 	return c.Next()
 }

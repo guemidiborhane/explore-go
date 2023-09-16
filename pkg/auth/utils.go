@@ -1,8 +1,9 @@
 package auth
 
 import (
-	"github.com/gofiber/fiber/v2"
 	"explore-go/errors"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 func GetCurrentUser(c *fiber.Ctx, user *User) error {
@@ -17,7 +18,7 @@ func GetCurrentUser(c *fiber.Ctx, user *User) error {
 
 	user.ID = session.Get(USER_ID).(uint)
 
-	if user.ID == 0 {
+	if err := user.Get(); err != nil {
 		return errors.Unauthorized
 	}
 

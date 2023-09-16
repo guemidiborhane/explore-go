@@ -7,9 +7,8 @@ var router fiber.Router
 func setupRoutes() {
 	group := router.Group("/auth")
 
-	group.Get("/", Auth, Show)
+	group.Get("/", CheckAuthenticated, Show)
 	group.Post("/", validateUser, Register)
 	group.Post("/session", validateLogin, Login)
 	group.Delete("/session", Logout)
-
 }

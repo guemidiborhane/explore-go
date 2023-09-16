@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/gofiber/fiber/v2/middleware/monitor"
 	"explore-go/config"
 	"explore-go/config/validator"
 	"explore-go/database"
@@ -9,6 +8,9 @@ import (
 	"explore-go/pkg"
 	"explore-go/router"
 	"explore-go/server"
+	"explore-go/server/websocket"
+
+	"github.com/gofiber/fiber/v2/middleware/monitor"
 )
 
 func main() {
@@ -23,6 +25,12 @@ func main() {
 	router.Setup()
 	pkg.Setup()
 	router.ApiRouter.Use("/monitor", monitor.New())
+	websocket.SetupWebsocketServer()
+
+	websocket.Send(websocket.Message{
+		Channel: "system",
+		Message: "reload",
+	})
 
 	SetupStatic()
 	server.Start()
