@@ -29,15 +29,8 @@ type WS struct {
 
 var Websocket *WS
 
-func SetupWebsocketServer() {
+func Setup() {
 	Websocket = &WS{
 		Router: server.App.Group("/ws", auth.CheckAuthenticated, logger.New()),
 	}
-	Websocket.Router.Get("/", upgradeHandler)
-	Websocket.Router.Get("/", websocket.New(wsHandler), websocket.New(func(c *websocket.Conn) {
-		// Remove the client when the connection is closed
-		ClientsMutex.Lock()
-		delete(Clients, c)
-		ClientsMutex.Unlock()
-	}))
 }

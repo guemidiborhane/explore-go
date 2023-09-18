@@ -9,7 +9,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func upgradeHandler(c *fiber.Ctx) error {
+func UpgradeHandler(c *fiber.Ctx) error {
 	if websocket.IsWebSocketUpgrade(c) {
 		c.Locals("allowed", true)
 
@@ -18,7 +18,7 @@ func upgradeHandler(c *fiber.Ctx) error {
 	return fiber.ErrUpgradeRequired
 }
 
-func wsHandler(c *websocket.Conn) {
+func WsHandler(c *websocket.Conn) {
 	mutex.Lock()
 	Clients[c] = struct{}{}
 	mutex.Unlock()
@@ -40,4 +40,11 @@ func wsHandler(c *websocket.Conn) {
 			log.Println("write:", err)
 		}
 	}
+}
+
+func DisconnectHandler(c *websocket.Conn) {
+	// Remove the client when the connection is closed
+	ClientsMutex.Lock()
+	delete(Clients, c)
+	ClientsMutex.Unlock()
 }

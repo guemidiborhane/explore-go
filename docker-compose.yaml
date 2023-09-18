@@ -72,7 +72,7 @@ services:
     volumes:
       - ./:/app
     healthcheck:
-      test: test -f /app/build/index.html
+      test: test -f /app/static/build/index.html
       interval: 5s
 
 volumes:

@@ -6,7 +6,7 @@ import { type ReceiverEvent, subscribe } from "~/websocket";
 subscribe({
     channel: 'system',
     receiver: ({ data }: ReceiverEvent) => {
-        console.log(data)
+        if (data.message == 'reload') window.location.reload()
     }
 })
 subscribe({

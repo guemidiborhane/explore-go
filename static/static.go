@@ -1,7 +1,8 @@
-package main
+package static
 
 import (
 	"embed"
+	"explore-go/router"
 	"explore-go/server"
 	"net/http"
 
@@ -9,11 +10,11 @@ import (
 )
 
 //go:embed all:build
-var vite embed.FS
+var static embed.FS
 
-func SetupStatic() {
-	server.App.Use("/", server.CsrfMiddleware, filesystem.New(filesystem.Config{
-		Root:         http.FS(vite),
+func Setup() {
+	server.App.Use("/", router.CsrfMiddleware, filesystem.New(filesystem.Config{
+		Root:         http.FS(static),
 		Browse:       true,
 		PathPrefix:   "/build",
 		Index:        "index.html",

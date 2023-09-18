@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => {
 
     return {
         build: {
-            outDir: 'build/',
+            outDir: 'static/build/',
             rollupOptions: {
                 output: {
                     manualChunks(id: string) {

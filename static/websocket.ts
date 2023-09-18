@@ -11,7 +11,7 @@ export default class Consumer {
     protected connection?: WebSocket = undefined
     private subscriptions: Subscription[] = []
     subscribe: (s: Subscription) => void
-    ping_timeout: number = 5000
+    ping_timeout: number = 1000
     private ping_interval: any
     private reconnect_interval: any
     private ping: string = JSON.stringify({ channel: 'health', message: 'ping' })
@@ -54,7 +54,7 @@ export default class Consumer {
         const connect = this.connect.bind(this)
         this.reconnect_interval = setInterval(() => {
             connect()
-        }, this.ping_timeout)
+        }, this.ping_timeout * 3)
     }
 
     private onOpen() {

@@ -2,7 +2,7 @@ package links
 
 import (
 	"errors"
-	"explore-go/server/websocket"
+	"explore-go/websocket"
 	"fmt"
 
 	e "explore-go/errors"

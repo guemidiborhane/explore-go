@@ -19,6 +19,5 @@ func Setup() {
 }
 
 func Start() {
-	SetupMiddlewares(App)
 	httpListen()
 }

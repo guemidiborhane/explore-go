@@ -8,9 +8,11 @@ import (
 	"explore-go/pkg"
 	"explore-go/router"
 	"explore-go/server"
-	"explore-go/server/websocket"
+	"explore-go/static"
+	"explore-go/websocket"
+	"time"
 
-	"github.com/gofiber/fiber/v2/middleware/monitor"
+	"github.com/gofiber/fiber/v2"
 )
 
 func main() {
@@ -19,19 +21,24 @@ func main() {
 	database.Setup()
 	session.Setup()
 	validator.Setup()
+	websocket.Setup()
 
 	// Required to run first since it registers the group
 	// all other packages are gonna register their routes on
 	router.Setup()
 	pkg.Setup()
-	router.ApiRouter.Use("/monitor", monitor.New())
-	websocket.SetupWebsocketServer()
 
-	websocket.Send(websocket.Message{
-		Channel: "system",
-		Message: "reload",
-	})
+	if !fiber.IsChild() {
+		go func() {
+			// wait 1 second before starting
+			time.Sleep(3 * time.Second)
+			websocket.Send(websocket.Message{
+				Channel: "system",
+				Message: "reload",
+			})
+		}()
+	}
 
-	SetupStatic()
+	static.Setup()
 	server.Start()
 }
